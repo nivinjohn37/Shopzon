@@ -1,5 +1,5 @@
 {
-  "name": "@100xdev/common",
+  "name": "@nivdev/common",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "zod": "^3.22.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
   }
 }
