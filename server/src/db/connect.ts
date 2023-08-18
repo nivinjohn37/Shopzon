@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import 'dotenv/config';
 import {ConnectOptions} from "mongoose";
 
-const DB_CONNECT = process.env.DB_CONNECT;
+const DB_CONNECT = process.env.DB_CONNECT || "default-connection-string";
 
 mongoose
     .connect(DB_CONNECT, {
