@@ -1,20 +1,20 @@
 import * as express from "express";
-import { Request, Response } from "express";
+import {Request, Response} from "express";
 import * as jwt from "jsonwebtoken";
-import { SignupParams, signupProps } from "@nivdev/common";
-import { Admin, User } from "../db/models";
-import { authenticateJwt, SECRET } from "../middleware/auth";
+import {SignupParams, signupProps} from "@nivdev/common";
+import {Admin, User} from "../db/models";
+import {authenticateJwt, SECRET} from "../middleware/auth";
 
 const router = express.Router();
 
 // Admin routes
 router.get('/me', authenticateJwt, async (req: Request, res: Response) => {
     const userId = req.headers["userId"];
-    const user = await User.findOne({ _id: userId });
+    const user: any = await User.findOne({_id: userId});
     if (user) {
-        res.json({ username: user.username });
+        res.json({username: user.username});
     } else {
-        res.status(403).json({ message: 'User not logged in' });
+        res.status(403).json({message: 'User not logged in'});
     }
 });
 
@@ -30,13 +30,13 @@ router.post("/signup", async (req: Request, res: Response) => {
         username: parsedInput.data.username,
         password: parsedInput.data.password
     };
-    const user = await Admin.findOne({ username: signupParams.username });
+    const user = await Admin.findOne({username: signupParams.username});
     if (user) {
         res.status(403).json({
             message: "Admin already exists"
         });
     } else {
-        const newUser = new User({ username: signupParams.username, password: signupParams.password });
+        const newUser = new User({username: signupParams.username, password: signupParams.password});
         await newUser.save();
         const token = jwt.sign({
             username: newUser._id,
@@ -44,7 +44,7 @@ router.post("/signup", async (req: Request, res: Response) => {
         }, SECRET, {
             expiresIn: "1h"
         });
-        res.json({ message: "Admin created successfully", token });
+        res.json({message: "Admin created successfully", token});
     }
 });
 
